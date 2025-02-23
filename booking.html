@@ -1,52 +1,38 @@
-<!DOCTYPE html>
-<html lang="de" data-lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حجز موعد - مكتب الترجمة</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="booking.js" defer></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.3/main.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.3/main.min.js"></script>
-</head>
-<body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">الرئيسية</a></li>
-                <li><a href="about.html">من نحن</a></li>
-                <li><a href="services.html">الخدمات</a></li>
-                <li><a href="contact.html">الاتصال</a></li>
-            </ul>
-        </nav>
-    </header>
+document.addEventListener("DOMContentLoaded", function () {
+    let calendarEl = document.getElementById("calendar");
+    let storedAppointments = JSON.parse(localStorage.getItem("appointments")) || [];
 
-    <section id="booking">
-        <h2>📅 حجز موعد</h2>
-        <p>يرجى اختيار التاريخ والوقت لحجز موعد:</p>
-        <input type="date" id="appointmentDate">
-        <input type="time" id="appointmentTime">
-        <button onclick="bookAppointment()">🔔 حجز الموعد</button>
-        <p id="appointmentMessage"></p>
+    let calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: "dayGridMonth",
+        selectable: false,
+        locale: "de",
+        events: storedAppointments,
+    });
 
-        <h3>📋 مواعيد محجوزة</h3>
-        <div id="calendar"></div>
-    </section>
+    calendar.render();
+});
 
-    <footer>
-        <div class="contact-icons">
-            <a href="https://wa.me/YOUR_NUMBER" target="_blank">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-            </a>
-            <a href="mailto:your_email@example.com">
-                <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="E-Mail">
-            </a>
-            <a href="https://www.instagram.com/yourprofile" target="_blank">
-                <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
-            </a>
-        </div>
-        <p>&copy; 2025 جميع الحقوق محفوظة | مكتب سموح للترجمة</p>
-    </footer>
-    <script src="booking.js"></script>
-</body>
-</html>
+function bookAppointment() {
+    let date = document.getElementById("appointmentDate").value;
+    let time = document.getElementById("appointmentTime").value;
+
+    if (!date || !time) {
+        alert("يرجى اختيار التاريخ والوقت للحجز.");
+        return;
+    }
+
+    let storedAppointments = JSON.parse(localStorage.getItem("appointments")) || [];
+
+    let newAppointment = {
+        title: "موعد محجوز ⏳",
+        start: `${date}T${time}`,
+        allDay: false,
+    };
+
+    storedAppointments.push(newAppointment);
+    localStorage.setItem("appointments", JSON.stringify(storedAppointments));
+
+    alert("تم حجز الموعد بنجاح!");
+
+    location.reload(); // تحديث الصفحة لعرض الموعد في التقويم
+}
