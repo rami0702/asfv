@@ -1,4 +1,4 @@
-/* جعل الخلفية موحدة */
+/* تحسين العرض العام */
 body {
     background-image: url('https://source.unsplash.com/1600x900/?business,office,documents');
     background-size: cover;
@@ -24,6 +24,7 @@ nav ul {
     display: flex;
     justify-content: center;
     gap: 15px;
+    flex-wrap: wrap; /* يجعل القوائم تتكيف مع الشاشات الصغيرة */
 }
 
 nav ul li a {
@@ -33,19 +34,22 @@ nav ul li a {
     padding: 10px 15px;
 }
 
-nav ul li a:hover {
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 5px;
-}
+/* تحسين تجربة المستخدم على الهاتف */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column; /* يجعل القوائم رأسية على الهواتف */
+        text-align: center;
+    }
 
-/* تحسين الحجز */
-#booking {
-    margin: 20px auto;
-    width: 90%;
-    max-width: 800px;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 20px;
-    border-radius: 10px;
+    button {
+        width: 100%; /* يجعل الأزرار تأخذ كامل العرض */
+        padding: 15px;
+        font-size: 18px;
+    }
+
+    #booking {
+        width: 95%; /* يضمن أن الحجز يظهر بشكل صحيح على الهواتف */
+    }
 }
 
 /* تحسين الأزرار */
@@ -80,16 +84,4 @@ button:hover {
 
 .contact-icons img:hover {
     transform: scale(1.2);
-}
-
-/* تحسين التصميم للهواتف */
-@media (max-width: 768px) {
-    nav ul {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    button {
-        width: 100%;
-    }
 }
